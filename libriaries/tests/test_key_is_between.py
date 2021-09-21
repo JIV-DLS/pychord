@@ -1,5 +1,5 @@
 import unittest
-import key
+from libraries import key
 import hashlib
 
 class KeyIsBetweenTest(unittest.TestCase):

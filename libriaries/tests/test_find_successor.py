@@ -1,7 +1,7 @@
 import unittest
-import chord
+from libraries import chord
 import random
-import tests.commons
+import commons
 
 
 class TestFindSuccessorLonelyNode(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestFindSuccessorLonelyNode(unittest.TestCase):
         self.existingnode = chord.LocalNode(self.ip, self.port, _stabilizer=False)
 
     def tearDown(self):
-        tests.commons.stoplocalnodes([self.existingnode])
+        commons.stoplocalnodes([self.existingnode])
 
     def test_find_successor(self):
         """
@@ -39,7 +39,7 @@ class TestFindSuccessorTwoNode(unittest.TestCase):
     Fingers of the ring are set "manually" not with chord algorithm
     """
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
                 2,
                 setfingers=True,
                 setpredecessor=True,
@@ -47,7 +47,7 @@ class TestFindSuccessorTwoNode(unittest.TestCase):
         )
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_find_successor(self):
         """
@@ -114,7 +114,7 @@ class TestFindSuccessorThreeNode(unittest.TestCase):
     """
     @classmethod
     def setUpClass(self):
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
                 3,
                 setfingers=True,
                 setpredecessor=True,
@@ -123,7 +123,7 @@ class TestFindSuccessorThreeNode(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_find_successor_key_equal_node(self):
         """

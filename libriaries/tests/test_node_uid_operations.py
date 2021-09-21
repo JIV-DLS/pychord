@@ -1,5 +1,5 @@
 import unittest
-import chord
+from libraries import chord
 import hashlib
 
 def getSha256Str(strtohash):

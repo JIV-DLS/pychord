@@ -1,13 +1,13 @@
 import unittest
-import chord
-import tests.commons
+from libraries import chord
+import commons
 
 class TestInitFingers(unittest.TestCase):
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(2, stabilizer=False)
+        self.nodes = commons.createlocalnodes(2, stabilizer=False)
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_init_fingers(self):
         self.nodes[1].init_fingers(chord.NodeInterface(self.nodes[0].asdict()))

@@ -1,13 +1,13 @@
 import unittest
-import chord
-import tests.commons
+from libraries import chord
+import commons
 
 class TestJoinTwoNodeRing(unittest.TestCase):
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(2, stabilizer=False)
+        self.nodes = commons.createlocalnodes(2, stabilizer=False)
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_join(self):
         self.nodes[1].join(chord.NodeInterface(self.nodes[0].asdict()))
@@ -31,10 +31,10 @@ class TestJoinTwoNodeRing(unittest.TestCase):
 
 class TestJoinThreeNodeRing(unittest.TestCase):
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(3, stabilizer=False)
+        self.nodes = commons.createlocalnodes(3, stabilizer=False)
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_join_three_node(self):
         self.nodes[1].join(chord.NodeInterface(self.nodes[0].asdict()))

@@ -1,11 +1,11 @@
 import logging
 import sys
-import serverxmlrpc
-import clientxmlrpc
+from . import serverxmlrpc
+from . import clientxmlrpc
 import random
-from stabilizer import Stabilizer
+from .stabilizer import Stabilizer
 
-from key import Key, Uid
+from .key import Key, Uid
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)

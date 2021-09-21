@@ -1,8 +1,8 @@
 import unittest
-import chord
+from libraries import chord
 import random
-import tests.commons
-import key
+import commons
+from libraries import key
 
 class TestCaseClosestPrecedingFinger(unittest.TestCase):
     def assertClosestPrecedingFinger(self, nodes, keytolookfor):
@@ -49,10 +49,10 @@ class TestCaseClosestPrecedingFinger(unittest.TestCase):
 
 class TestClosestPrecedingFingerLonelyNode(TestCaseClosestPrecedingFinger):
     def setUp(self):
-        self.node = tests.commons.createlocalnodes(1, stabilizer=False)[0]
+        self.node = commons.createlocalnodes(1, stabilizer=False)[0]
 
     def tearDown(self):
-        tests.commons.stoplocalnodes([self.node])
+        commons.stoplocalnodes([self.node])
 
     def test_with_lonely_node(self):
         self.assertEqual(
@@ -71,7 +71,7 @@ class TestClosestPrecedingFingerLonelyNode(TestCaseClosestPrecedingFinger):
 
 class TestClosestPrecedingFingerTwoNode(TestCaseClosestPrecedingFinger):
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
                 2,
                 setfingers=True,
                 setpredecessor=True,
@@ -79,7 +79,7 @@ class TestClosestPrecedingFingerTwoNode(TestCaseClosestPrecedingFinger):
         )
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_with_two_node(self):
         keytolookfor = self.nodes[0].uid - 1
@@ -94,7 +94,7 @@ class TestClosestPrecedingFingerTwoNode(TestCaseClosestPrecedingFinger):
 class TestClosestPrecedingFingerThreeNode(TestCaseClosestPrecedingFinger):
     @classmethod
     def setUpClass(self):
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
                 3,
                 setfingers=True,
                 setpredecessor=True,
@@ -103,7 +103,7 @@ class TestClosestPrecedingFingerThreeNode(TestCaseClosestPrecedingFinger):
 
     @classmethod
     def tearDownClass(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_closest_preceding_finger_three_node(self):
         keytolookfor = self.nodes[0].uid - 1

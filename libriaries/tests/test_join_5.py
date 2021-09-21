@@ -1,7 +1,7 @@
 import unittest
 import time
-import chord
-import tests.commons
+from libraries import chord
+import commons
 
 class TestManualStabilize2Nodes(unittest.TestCase):
     """
@@ -10,11 +10,11 @@ class TestManualStabilize2Nodes(unittest.TestCase):
     2 nodes ring
     """
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(2, stabilizer=False)
+        self.nodes = commons.createlocalnodes(2, stabilizer=False)
         self.nodes[1].join_5(chord.NodeInterface(self.nodes[0].asdict()))
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_joining_node_successor(self):
         """
@@ -57,7 +57,7 @@ class TestManualStabilize3Nodes(unittest.TestCase):
     Then node 2 join node 0. From their test successor/predecessor info after each stabilize execution
     """
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(3, stabilizer=False)
+        self.nodes = commons.createlocalnodes(3, stabilizer=False)
         self.nodes[1].join_5(chord.NodeInterface(self.nodes[0].asdict()))
         self.nodes[1].stabilize()
         self.nodes[0].stabilize()
@@ -66,7 +66,7 @@ class TestManualStabilize3Nodes(unittest.TestCase):
         self.nodes[2].join_5(chord.NodeInterface(self.nodes[0].asdict()))
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def get_successor(self, node_index):
         node_tested = self.nodes[node_index]
@@ -132,11 +132,11 @@ class TestManualStabilize3Nodes(unittest.TestCase):
 
 class TestPeriodicalStabilize(unittest.TestCase):
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(2)
+        self.nodes = commons.createlocalnodes(2)
         self.nodes[1].join_5(chord.NodeInterface(self.nodes[0].asdict()))
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_stabilize(self):
         """

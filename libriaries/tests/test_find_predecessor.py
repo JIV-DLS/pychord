@@ -1,7 +1,7 @@
 import unittest
-import chord
+from libraries import chord
 import random
-import tests.commons
+import commons
 
 class TestFindpredecessorTwoNode(unittest.TestCase):
     """
@@ -9,7 +9,7 @@ class TestFindpredecessorTwoNode(unittest.TestCase):
     Fingers of the ring are set "manually" not with chord algorithm
     """
     def setUp(self):
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
                 2,
                 setfingers=True,
                 setpredecessor=True,
@@ -17,7 +17,7 @@ class TestFindpredecessorTwoNode(unittest.TestCase):
         )
 
     def tearDown(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_find_predecessor(self):
         """
@@ -67,7 +67,7 @@ class TestFindpredecessorThreeNode(unittest.TestCase):
     """
     @classmethod
     def setUpClass(self):
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
                 3,
                 setfingers=True,
                 setpredecessor=True,
@@ -76,7 +76,7 @@ class TestFindpredecessorThreeNode(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_find_predecessor(self):
         """

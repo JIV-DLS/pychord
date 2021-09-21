@@ -1,4 +1,4 @@
-import chord
+from libraries import chord
 import random
 import time
 

@@ -1,20 +1,20 @@
 import unittest
-import chord
-import tests.commons
+from libraries import chord
+import commons
 
 class NodeLookupTest(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.ip = "127.0.0.1"
         self.port = [2221, 2222, 2223]
-        self.nodes = tests.commons.createlocalnodes(
+        self.nodes = commons.createlocalnodes(
             3, 2221, 2222, 2223,
             setfingers=True, setpredecessor=True, stabilizer=False
         )
 
     @classmethod
     def tearDownClass(self):
-        tests.commons.stoplocalnodes(self.nodes)
+        commons.stoplocalnodes(self.nodes)
 
     def test_lookupWithSucc(self):
         #nodes[0] a2fa69d06e3fdca9e022f993e81081d3cc65b262d4a77bd47caa190b7180d354
