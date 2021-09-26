@@ -75,3 +75,5 @@ class TestJoinThreeNodeRing(unittest.TestCase):
                             node.fingers[i].respNode.uid,
                             node.uid
                     )
+
+unittest.main()
