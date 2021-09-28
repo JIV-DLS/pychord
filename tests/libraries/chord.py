@@ -14,6 +14,8 @@ formatter = logging.Formatter(' %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 log.addHandler(ch)
 
+DEBUG = False
+
 class BasicNode(object):
     def __init__(self, *args):
         """
@@ -32,6 +34,8 @@ class BasicNode(object):
         self.port = port
         #TODO:optimization with sys.intern() str of 64 char
         self.uid = Uid(self.ip + ":" + repr(self.port))
+    def __repr__(self):
+        return '{'+f'Ip: {self.ip}, port {self.port}, uid: {self.uid}'+'}'
 
     def getUid(self):
         return self.uid
@@ -92,6 +96,9 @@ class Finger(object):
 
         self.setRespNode(respNode)
 
+    def __repr__(self):
+        return f'(Key: {self.key}, node: {self.respNode})'
+
     def setRespNode(self, respNode):
         if isinstance(respNode, dict):
             self.respNode = self.originNode.getNodeInterface(respNode)
@@ -114,7 +121,9 @@ class LocalNode(BasicNode):
         if _stabilizer:
             self.stabilizer = Stabilizer(self)
             self.stabilizer.start()
-
+    def __repr__(self):
+        fingers_to_string = [str(i)+'-'+str(self.fingers[i]) for i in range(6)]
+        return '$' + super().__repr__() + f'Predecessor: {self.predecessor}, successor {self.successor}, fingers: {fingers_to_string}'+'$'
     @property
     def successor(self):
         return self.fingers[0].respNode
@@ -234,7 +243,7 @@ class LocalNode(BasicNode):
         self.fingers[i].setRespNode(self.find_successor(self.fingers[i].key))
 
     def init_fingers(self, existingnode):
-        log.debug("%s - init_fingers with %s" %(self.uid, existingnode.uid))
+        if DEBUG: log.debug("%s - init_fingers with %s" %(self.uid, existingnode.uid))
         find_pred_res = existingnode.methodProxy.find_predecessor(self.uid.value)
         self.setsuccessor(find_pred_res["succ"])
         self.setpredecessor(find_pred_res)
@@ -250,7 +259,7 @@ class LocalNode(BasicNode):
 
     def update_others(self):
         for i in range(0, self.uid.idlength):
-            log.debug("%s - update_others for i=%i" %(self.uid, i))
+            if DEBUG: log.debug("%s - update_others for i=%i" %(self.uid, i))
             predenode = self.find_predecessor(self.uid - pow(2, i))
             self.getNodeInterface(predenode).methodProxy.update_finger_table(self.asdict(), i)
 
@@ -259,10 +268,10 @@ class LocalNode(BasicNode):
         #update_finger_table looped over the ring and came back to self
         if callingnode.uid == self.uid:
             return
-        log.debug("%s - update_finger_table with node '%s' for i=%i" %(self.uid, callingnode.uid, i))
+        if DEBUG: log.debug("%s - update_finger_table with node '%s' for i=%i" %(self.uid, callingnode.uid, i))
         #TODO check if key and node uid of the same finger could be equal and then lead to a exception in isbetween
         if callingnode.uid.isbetween(self.fingers[i].key, self.fingers[i].respNode.uid):
-            log.debug("%s - update_finger_table:  callingnode uid is between self.uid and fingers(%i). node.uid" %(self.uid, i))
+            if DEBUG: log.debug("%s - update_finger_table:  callingnode uid is between self.uid and fingers(%i). node.uid" %(self.uid, i))
             self.fingers[i].setRespNode(callingnode.asdict())
             #TODO optim : self knows fingers[i] uid so it can calculate if predecessor has chance or not to have to update his finger(i)
             if self.predecessor.uid != callingnode.uid: # dont rpc on callingnode it self
@@ -294,7 +303,7 @@ class LocalNode(BasicNode):
         if not isinstance(key, Key):
             raise TypeError("find_predecessor arg must be dict, str or Key")
 
-        log.debug("%s - find_predecessor for '%s'" %(self.uid, key.value))
+        if DEBUG: log.debug("%s - find_predecessor for '%s'" %(self.uid, key.value))
         if self.uid == self.successor.uid:
             return self.asdict()
         if key.is_between_r_inclu(self.uid, self.successor.uid):
